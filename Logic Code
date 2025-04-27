@@ -1,1 +1,35 @@
+## ALL AROUND MOVEMENT
+
+extends CharacterBody2D
+
+@export var MAX_SPEED : float = 500;
+@export var FRICTION : float = 0.15;
+@export var ACCELERATION : float = 0.1;
+
+func _ready() -> void:
+	pass
+
+func _physics_process(delta: float) -> void:
+	movement()
+
+func get_input():
+	var input = Vector2.ZERO
+	if Input.is_action_pressed("right"):
+		input.x += 1
+	if Input.is_action_pressed("left"):
+		input.x -= 1
+	if Input.is_action_pressed("down"):
+		input.y += 1
+	if Input.is_action_pressed("up"):
+		input.y -= 1
+	return input.normalized()
+
+func movement():
+	var direction = get_input()
+	print(direction)
+	if direction.length() > 0:
+		velocity = velocity.lerp(direction * MAX_SPEED, ACCELERATION)
+	else:
+		velocity = velocity.lerp(Vector2.ZERO, FRICTION)
+	move_and_slide()
 
