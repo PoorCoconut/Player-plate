@@ -2,12 +2,9 @@
 
 extends CharacterBody2D
 
-@export var MAX_SPEED : float = 500;
-@export var FRICTION : float = 0.15;
-@export var ACCELERATION : float = 0.1;
-
-func _ready() -> void:
-	pass
+@export var MAX_SPEED : float = 115;
+@export var FRICTION : float = 4.5;
+@export var ACCELERATION : float = 6;
 
 func _physics_process(delta: float) -> void:
 	movement()
@@ -26,10 +23,9 @@ func get_input():
 
 func movement():
 	var direction = get_input()
-	print(direction)
 	if direction.length() > 0:
-		velocity = velocity.lerp(direction * MAX_SPEED, ACCELERATION)
+		player.velocity = player.velocity.lerp(direction * MAX_SPEED, ACCELERATION * delta)
 	else:
-		velocity = velocity.lerp(Vector2.ZERO, FRICTION)
-	move_and_slide()
+		player.velocity = player.velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+	player.move_and_slide()
 
